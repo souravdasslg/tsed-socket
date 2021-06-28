@@ -1,5 +1,5 @@
 import {Configuration, Inject} from "@tsed/di";
-import {Middleware, PlatformApplication,Req} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express"; // /!\ keep this import
 import bodyParser from "body-parser";
 import compress from "compression";
@@ -7,10 +7,7 @@ import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import cors from "cors";
 import "@tsed/ajv";
-import { config, rootDir } from "./config";
-import "@tsed/servestatic";
-
-
+import {config, rootDir} from "./config";
 
 @Configuration({
   ...config,
@@ -18,9 +15,9 @@ import "@tsed/servestatic";
   httpsPort: false, // CHANGE
   socketIO: {
     path: "/subscription",
-    transports:["websocket"],
+    transports: ["websocket"],
     cors: {
-      origin:"*"
+      origin: "*"
     }
   },
   statics: {
@@ -43,9 +40,8 @@ export class Server {
   settings: Configuration;
 
   $beforeRoutesInit(): void {
-    console.log(rootDir)
     this.app
-      .use(cors({origin:"*",allowedHeaders:"*"}))
+      .use(cors({origin: "*", allowedHeaders: "*"}))
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())
@@ -54,5 +50,4 @@ export class Server {
         extended: true
       }));
   }
-
 }
